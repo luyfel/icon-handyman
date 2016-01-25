@@ -1,0 +1,42 @@
+@font-face {
+	font-family: "<%= fontName %>";
+    font-style: normal;
+    font-weight: 400;
+	src: url('<%= fontPath %><%= fontName %>.eot'); /* For IE6-8 */
+	src: url('<%= fontPath %><%= fontName %>.woff2') format('woff2'),
+	     url('<%= fontPath %><%= fontName %>.woff') format('woff'),
+		 url('<%= fontPath %><%= fontName %>.ttf') format('truetype');
+}
+
+.<%= cssClass %> {
+    font-family: "<%= fontName %>";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+<% _.each(glyphs, function(glyph) { %>
+.<%= cssClass %>--<%= glyph.fileName %> {
+	content: "\<%= glyph.codePoint %>";
+}
+<% }); %>

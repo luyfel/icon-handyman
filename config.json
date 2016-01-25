@@ -1,0 +1,22 @@
+{
+    "size": 24,
+    "sizes": [18, 24, 36, 48],
+    "colors": [
+        {
+            "name": "",
+            "color": "#333333"
+        },
+        {
+            "name": "white",
+            "color": "#ffffff"
+        },
+        {
+            "name": "green",
+            "color": "#009900"
+        },
+        {
+            "name": "blue",
+            "color": "#0099ff"
+        }
+    ]
+}
