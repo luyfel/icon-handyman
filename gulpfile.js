@@ -175,7 +175,7 @@ gulp.task('ios', ['ios:svg'], function() {
                         .pipe(svg2png(size/config.size*multiplier, true, 1))
                         .pipe(rename(function(path) {
                             path.dirname = path.basename + ((size !== config.size) ? '_' + size + 'pt' : '') + '.imageset';
-                            path.basename += (multiplier > 1) ? '_' + multiplier + 'x' : '';
+                            path.basename += (multiplier > 1) ? '@' + multiplier + 'x' : '';
                             return path;
                         }))
                 })
@@ -328,14 +328,31 @@ gulp.task('web:svg', [], function() {
  */
 gulp.task('svg', function() {
 
-    del([
-        './public/svg'
-    ]);
+     del([
+         './public/svg'
+     ]);
 
-    return gulp.src('./resources/icons/*.svg')
-        .pipe(gulp.dest('./public/svg/design'))
-        .pipe(svgmin())
-        .pipe(gulp.dest('./public/svg/production'));
+     _(config.colors)
+         .map(function(color) {
+             return gulp.src('./resources/icons/*.svg')
+                 .pipe(cheerio({
+                     run: function($, file) {
+                         $('svg').attr('fill', color.color);
+                     }
+                 }))
+                 .pipe(rename(function(path) {
+                     path.basename += (color.name !== '') ? '_' + color.name : '';
+                     return path;
+                 }));
+         })
+         .thru(merge)
+         .value()
+         .pipe(svgmin())
+         .pipe(gulp.dest('./public/svg/production'));
+
+     return gulp.src('./resources/icons/*.svg')
+         .pipe(gulp.dest('./public/svg/design'))
+
 });
 
 /**
